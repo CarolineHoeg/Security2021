@@ -28,7 +28,7 @@
             Login
         </button>
     </div>
-
+    <!-- Login modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -45,10 +45,10 @@
                         <form name="login" action="ServletController" method="post">
                             <input type="hidden" name="cmd" value="login">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="username" placeholder="Username">
+                                <input type="text" class="form-control" name="username" placeholder="Username" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="password" placeholder="Password">
+                                <input type="password" class="form-control" name="password" placeholder="Password" required>
                             </div>
                             <button type="submit" class="btn btn-info btn-block btn-round">Login</button>
                         </form>

@@ -2,28 +2,22 @@ package Persistence;
 
 import Dependencies.MysqlConnection;
 import Models.User;
-import org.mindrot.jbcrypt.BCrypt;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class UserMapper {
 
     private static UserMapper instance;
     private Connection connection;
     private MysqlConnection mysqlCon = new MysqlConnection();
-    private static String pepper;
 
-    public static UserMapper getInstance() throws IOException {
+    public static UserMapper getInstance() {
         if (instance == null) { instance = new UserMapper(); }
-        if (pepper == null) { setPepper();}
         return instance;
     }
-    public User login(String username, String password) throws SQLException {
+    public User login(String username, String password) throws Exception {
         connection = mysqlCon.connect();
         String selectSql = "SELECT u_pass FROM users "
                 + "WHERE u_name = ?";
@@ -33,11 +27,14 @@ public class UserMapper {
         ResultSet result = pstmt.executeQuery();
         while (result.next()) {
             String hashedPw = result.getString(1);
-            if (BCrypt.checkpw(pepper + password, hashedPw)) {
+            User temp = new User(username, password);
+            if (temp.validatePassword(password, hashedPw)) {
+                connection.close();
                 return new User(username, password);
             }
         }
-        return null;
+        connection.close();
+        throw new Exception("Username or password incorrect.");
     }
     public void register(User user) throws SQLException {
         connection = mysqlCon.connect();
@@ -46,12 +43,6 @@ public class UserMapper {
         pstmt.setString(1, user.getUsername());
         pstmt.setString(2, user.getPassword());
         pstmt.executeUpdate();
-    }
-
-    private static void setPepper() throws IOException {
-        InputStream in = UserMapper.class.getClassLoader().getResourceAsStream("pepper.properties");
-        Properties props = new Properties();
-        props.load(in);
-        pepper = props.getProperty("pepper");
+        connection.close();
     }
 }

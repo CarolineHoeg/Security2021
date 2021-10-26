@@ -1,8 +1,6 @@
 package Persistence;
 
 import Models.User;
-
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class DBFacade implements IDBFacade{
@@ -11,13 +9,10 @@ public class DBFacade implements IDBFacade{
 
     @Override
     public User login(String username, String password) throws Exception {
-
         try {
             uMapper = UserMapper.getInstance();
             return uMapper.login(username, password);
-        } catch (IOException e) {
-            throw new Exception("Couldn't establish a connection to the database.");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new Exception("Username or password incorrect.");
         }
     }
@@ -29,8 +24,6 @@ public class DBFacade implements IDBFacade{
             uMapper = UserMapper.getInstance();
             uMapper.register(user);
             return user;
-        } catch (IOException e) {
-            throw new Exception("Couldn't establish a connection to the database.");
         } catch (SQLException e) {
             throw new Exception("Username already in use.");
         }
