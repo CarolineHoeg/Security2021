@@ -21,28 +21,34 @@ public class UserMapper {
         connection = mysqlCon.connect();
         String selectSql = "SELECT u_pass FROM users "
                 + "WHERE u_name = ?";
-        PreparedStatement pstmt = connection.prepareStatement(selectSql);
-        pstmt.setString(1, username);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
 
-        ResultSet result = pstmt.executeQuery();
-        while (result.next()) {
-            String hashedPw = result.getString(1);
-            User temp = new User(username, password);
-            if (temp.validatePassword(password, hashedPw)) {
-                connection.close();
-                return new User(username, password);
+            ResultSet result = pstmt.executeQuery();
+            while (result.next()) {
+                String hashedPw = result.getString(1);
+                User temp = new User(username, password);
+                if (temp.validatePassword(password, hashedPw)) {
+                    return new User(username, password);
+                }
             }
+        } catch (Exception e) {
+            throw new Exception("Something went wrong.");
         }
-        connection.close();
         throw new Exception("Username or password incorrect.");
     }
-    public void register(User user) throws SQLException {
+    public void register(User user) throws Exception {
         connection = mysqlCon.connect();
         String insertSql = "INSERT INTO users VALUES (?, ?)";
-        PreparedStatement pstmt = connection.prepareStatement(insertSql);
-        pstmt.setString(1, user.getUsername());
-        pstmt.setString(2, user.getPassword());
-        pstmt.executeUpdate();
-        connection.close();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(insertSql);
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Username already taken.");
+        }
+
     }
 }
