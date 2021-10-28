@@ -83,6 +83,7 @@
     </div>
 
 <!-- Registration modal -->
+    <!--TODO! make sure username cant contain whitespaces and that password and repaet password match-->
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

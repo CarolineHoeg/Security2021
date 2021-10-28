@@ -17,16 +17,6 @@
 <h1>Welcome!</h1>
 <p>Hi <c:out value="${user.getUsername()}"/></p>
 
-<!-- Create Forum -->
-<form name="forum" action="ServletController" method="post">
-    <input type="hidden" name="cmd" value="create_forum">
-    <input type="hidden" name="u_name" value="${user.getUsername()}">
-    <input type="text" name="f_title" placeholder="Title" required>
-    <input type="text" name="f_content" placeholder="Content" required>
-    <input type="submit" value="Create new forum">
-</form>
-
-
 <!-- Logout -->
 <form name="logout" action="ServletController" method="post">
     <input type="hidden" name="cmd" value="logout">

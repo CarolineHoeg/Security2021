@@ -15,6 +15,15 @@
 <%@include file="includes/navbar.jsp" %>
 <div class="container-fluid">
 <h1>Forum</h1>
+    <!-- Create Forum -->
+    <form name="forum" action="ServletController" method="post">
+        <input type="hidden" name="cmd" value="create_forum">
+        <input type="hidden" name="u_name" value="${user.getUsername()}">
+        <input type="text" name="f_title" placeholder="Title" required>
+        <input type="text" name="f_content" placeholder="Content" required>
+        <input type="submit" value="Create new forum">
+    </form>
+
     <div class="container">
 <ul class="list-unstyled">
     <c:forEach items="${forums}" var="forum">
