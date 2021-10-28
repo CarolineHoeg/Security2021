@@ -16,7 +16,7 @@ public class LoginCommand extends Command {
         String username = request.getParameter("l_username");
         String password = request.getParameter("l_password");
         User user = dbf.login(username, password);
-        request.setAttribute("user", user);
+        request.getSession().setAttribute("user", user);
         return "userpage";
     }
 }

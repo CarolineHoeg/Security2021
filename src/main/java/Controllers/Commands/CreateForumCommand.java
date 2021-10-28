@@ -7,7 +7,7 @@ import Persistence.IDBFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ForumCommand extends Command {
+public class CreateForumCommand extends Command {
 
     private IDBFacade dbf = new DBFacade();
 

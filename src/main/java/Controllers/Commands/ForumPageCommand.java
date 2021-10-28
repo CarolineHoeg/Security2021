@@ -1,23 +1,22 @@
 package Controllers.Commands;
 
 import Controllers.Command;
-import Models.User;
+import Models.Forum;
 import Persistence.DBFacade;
 import Persistence.IDBFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-public class RegisterCommand extends Command {
+public class ForumPageCommand extends Command {
 
     private IDBFacade dbf = new DBFacade();
 
     @Override
     protected String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String username = request.getParameter("r_username");
-        String password = request.getParameter("r_password");
-        User user = dbf.register(username, password);
-        request.getSession().setAttribute("user", user);
-        return "userpage";
+        List<Forum> forums = dbf.getAllForums();
+        request.getSession().setAttribute("forums", forums);
+        return "forumpage";
     }
 }

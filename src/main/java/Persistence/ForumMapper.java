@@ -5,6 +5,7 @@ import Models.Forum;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ForumMapper {
 
@@ -45,7 +46,7 @@ public class ForumMapper {
         return null;
     }
 
-    public ArrayList<Forum> getAll() throws Exception {
+    public List<Forum> getAll() throws Exception {
         connection = mysqlCon.connect();
         ArrayList<Forum> forums = new ArrayList<>();
         String selectSql = "SELECT * FROM forums";
