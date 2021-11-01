@@ -11,10 +11,9 @@ public abstract class Command {
 
     private static void initCommands() {
         commands = new HashMap<>();
-        commands.put("login", new LoginCommand());
-        commands.put("logout", new LogoutCommand());
-        commands.put("register", new RegisterCommand());
-        commands.put("create_forum", new CreateForumCommand());
+        commands.put("user", new UserCommand());
+        commands.put("forum", new ForumCommand());
+        commands.put("comment", new CommentCommand());
         commands.put("view", new ViewPageCommand());
     }
 

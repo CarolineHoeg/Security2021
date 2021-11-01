@@ -38,7 +38,8 @@
             <c:choose>
                 <c:when test="${user != null}">
                     <form name="logout" action="ServletController" method="post">
-                        <input type="hidden" name="cmd" value="logout">
+                        <input type="hidden" name="cmd" value="user">
+                        <input type="hidden" name="usercmd" value="logout">
                         <button type="submit" class="btn btn-light">Logout</button>
                     </form>
                 </c:when>
@@ -71,7 +72,8 @@
                     </div>
                     <div class="d-flex flex-column text-center">
                         <form name="login" action="ServletController" method="post">
-                            <input type="hidden" name="cmd" value="login">
+                            <input type="hidden" name="cmd" value="user">
+                            <input type="hidden" name="usercmd" value="login">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="l_username" placeholder="Username"
                                             required>
@@ -110,7 +112,8 @@
                         </div>
                         <div class="d-flex flex-column text-center">
                             <form name="register" action="ServletController" method="post">
-                                <input type="hidden" name="cmd" value="register">
+                                <input type="hidden" name="cmd" value="user">
+                                <input type="hidden" name="usercmd" value="register">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="r_username"
                                                 placeholder="Username" required>

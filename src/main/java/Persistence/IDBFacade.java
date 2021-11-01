@@ -13,4 +13,6 @@ public interface IDBFacade {
     public Forum getForum(int forumId) throws Exception;
     public List<Forum> getAllForums() throws Exception;
     public Comment createComment(String username, int forumId, String content) throws Exception;
+    public Comment updateComment(Comment comment) throws Exception;
+    public void deleteComment(Comment comment) throws Exception;
 }

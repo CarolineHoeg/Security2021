@@ -16,7 +16,6 @@
 <div class="container-fluid">
 <h1>Forum</h1>
     <%@include file="includes/createforum.jsp" %>
-
     <div class="container">
 <ul class="list-unstyled">
     <c:forEach items="${forums}" var="forum">
@@ -27,7 +26,14 @@
             <p><c:out value="${forum.getContent()}"/></p>
             <p>${forum.getComments().size()} comments</p>
             <c:if test="${user != null}">
-                <button>Add comment</button>
+                <form name="create_comment" action="ServletController" method="post">
+                    <input type="hidden" name="cmd" value="comment">
+                    <input type="hidden" name="commentcmd" value="create">
+                    <input type="hidden" name="u_name" value="${forum.getUsername()}">
+                    <input type="hidden" name="f_id" value="${forum.getId()}">
+                    <input type="text" name="content" required>
+                    <input type="submit" value="Add comment">
+                </form>
             </c:if>
         </div>
     </li>

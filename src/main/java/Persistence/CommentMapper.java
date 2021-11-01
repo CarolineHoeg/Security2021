@@ -18,13 +18,14 @@ public class CommentMapper {
     }
 
     public Comment create(Comment comment) throws Exception {
-        String insertSql = "INSERT INTO comments (u_name, f_id, c_content) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO comments (u_name, created, f_id, c_content) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql,
                     Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, comment.getUsername());
-            pstmt.setInt(2, comment.getForumId());
-            pstmt.setString(3, comment.getContent());
+            pstmt.setTimestamp(2, comment.getCreated());
+            pstmt.setInt(3, comment.getForumId());
+            pstmt.setString(4, comment.getContent());
             pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -38,6 +39,30 @@ public class CommentMapper {
         throw new Exception("Couldn't save your comment.");
     }
 
+    public Comment update(Comment comment) throws Exception {
+        String updateSql = "UPDATE comments SET c_content = ? WHERE id = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            pstmt.setString(1, comment.getContent());
+            pstmt.setInt(2, comment.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Something went wrong.");
+        }
+        return comment;
+    }
+
+    public void delete(int commentId) throws Exception {
+        String deleteSql = "DELETE FROM comments WHERE id = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(deleteSql);
+            pstmt.setInt(1, commentId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Something went wrong.");
+        }
+    }
+
     public ArrayList<Comment> getCommentsToForum(int forumId) throws Exception {
         ArrayList<Comment> comments = new ArrayList<>();
         String selectSql = "SELECT * FROM comments WHERE f_id = ?";
@@ -48,9 +73,10 @@ public class CommentMapper {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                String username = rs.getString(2);
-                String content = rs.getString(4);
-                comments.add(new Comment(id, username, forumId, content));
+                Timestamp created = rs.getTimestamp(2);
+                String username = rs.getString(3);
+                String content = rs.getString(5);
+                comments.add(new Comment(id, created, username, forumId, content));
             }
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");

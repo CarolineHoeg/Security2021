@@ -4,8 +4,6 @@ import Models.Comment;
 import Models.Forum;
 import Models.User;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public class DBFacade implements IDBFacade{
@@ -53,5 +51,15 @@ public class DBFacade implements IDBFacade{
     @Override
     public Comment createComment(String username, int forumId, String content) throws Exception {
         return COMMENTMAPPER.create(new Comment(username, forumId, content));
+    }
+
+    @Override
+    public Comment updateComment(Comment comment) throws Exception {
+        return COMMENTMAPPER.update(comment);
+    }
+
+    @Override
+    public void deleteComment(Comment comment) throws Exception {
+        COMMENTMAPPER.delete(comment.getId());
     }
 }

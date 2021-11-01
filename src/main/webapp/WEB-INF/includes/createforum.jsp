@@ -27,9 +27,10 @@
                 </button>
             </div>
             <form name="forum" action="ServletController" method="post">
+                <input type="hidden" name="cmd" value="forum">
+                <input type="hidden" name="forumcmd" value="create">
+                <input type="hidden" name="u_name" value="${user.getUsername()}">
                 <div class="modal-body">
-                    <input type="hidden" name="cmd" value="create_forum">
-                    <input type="hidden" name="u_name" value="${user.getUsername()}">
                     <div class="form-group">
                         <label for="title" class="col-form-label">Title:</label>
                         <input type="text" name="f_title" id="title" required>
