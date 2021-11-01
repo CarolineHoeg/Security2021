@@ -4,6 +4,8 @@ import Models.Comment;
 import Models.Forum;
 import Models.User;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class DBFacade implements IDBFacade{
@@ -44,6 +46,7 @@ public class DBFacade implements IDBFacade{
             ArrayList<Comment> comments = COMMENTMAPPER.getCommentsToForum(forum.getId());
             forum.setComments(comments);
         }
+        forums.sort((f1, f2) -> f2.getCreated().compareTo(f1.getCreated()));
         return forums;
     }
 

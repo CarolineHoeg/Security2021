@@ -20,13 +20,14 @@ public class ForumMapper {
     }
 
     public Forum create(Forum forum) throws Exception {
-        String insertSql = "INSERT INTO forums (u_name, f_title, f_content) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO forums (created, u_name, f_title, f_content) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql,
                     Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, forum.getUsername());
-            pstmt.setString(2, forum.getTitle());
-            pstmt.setString(3, forum.getContent());
+            pstmt.setTimestamp(1, forum.getCreated());
+            pstmt.setString(2, forum.getUsername());
+            pstmt.setString(3, forum.getTitle());
+            pstmt.setString(4, forum.getContent());
             pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -48,10 +49,11 @@ public class ForumMapper {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String username = rs.getString(2);
-                String title = rs.getString(3);
-                String content = rs.getString(4);
-                forum = new Forum(id, username, title, content);
+                Timestamp created = rs.getTimestamp(2);
+                String username = rs.getString(3);
+                String title = rs.getString(4);
+                String content = rs.getString(5);
+                forum = new Forum(id, created, username, title, content);
             }
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");
@@ -67,10 +69,11 @@ public class ForumMapper {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                String username = rs.getString(2);
-                String title = rs.getString(3);
-                String content = rs.getString(4);
-                forums.add(new Forum(id, username, title, content));
+                Timestamp created = rs.getTimestamp(2);
+                String username = rs.getString(3);
+                String title = rs.getString(4);
+                String content = rs.getString(5);
+                forums.add(new Forum(id, created, username, title, content));
             }
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");

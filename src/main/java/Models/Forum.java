@@ -1,22 +1,27 @@
 package Models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Forum {
 
     private int id;
+    private Timestamp created;
     private String username;
     private String title;
     private String content;
     private ArrayList<Comment> comments;
 
     public Forum(String username, String title, String content) {
+        this.created = new Timestamp(new Date().getTime());
         this.username = username;
         this.title = title;
         this.content = content;
     }
 
-    public Forum(int id, String username, String title, String content) {
+    public Forum(int id, Timestamp created, String username, String title, String content) {
+        this.created = created;
         this.id = id;
         this.username = username;
         this.title = title;
@@ -25,6 +30,7 @@ public class Forum {
 
     public Forum(int id, String username, String title, String content,
                  ArrayList<Comment> comments) {
+        this.created = new Timestamp(new Date().getTime());
         this.id = id;
         this.username = username;
         this.title = title;
@@ -38,6 +44,14 @@ public class Forum {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     public String getUsername() {
