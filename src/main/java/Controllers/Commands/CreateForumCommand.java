@@ -17,6 +17,6 @@ public class CreateForumCommand extends Command {
         String title = request.getParameter("f_title");
         String content = request.getParameter("f_content");
         dbf.createForum(username, title, content);
-        return "index";
+        return "userpage";
     }
 }

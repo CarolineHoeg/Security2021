@@ -26,7 +26,7 @@ public class DBFacade implements IDBFacade{
 
     @Override
     public Forum createForum(String username, String title, String content) throws Exception {
-        return FORUMMAPPER.createForum(new Forum(username, title, content));
+        return FORUMMAPPER.create(new Forum(username, title, content));
     }
 
     @Override
@@ -39,7 +39,12 @@ public class DBFacade implements IDBFacade{
 
     @Override
     public List<Forum> getAllForums() throws Exception {
-        return FORUMMAPPER.getAll();
+        List<Forum> forums = FORUMMAPPER.getAll();
+        for (Forum forum : forums) {
+            ArrayList<Comment> comments = COMMENTMAPPER.getCommentsToForum(forum.getId());
+            forum.setComments(comments);
+        }
+        return forums;
     }
 
     @Override

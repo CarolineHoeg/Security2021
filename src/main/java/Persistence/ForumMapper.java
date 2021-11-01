@@ -10,16 +10,16 @@ import java.util.List;
 public class ForumMapper {
 
     private static ForumMapper instance;
-    private Connection connection;
-    private MysqlConnection mysqlCon = new MysqlConnection();
+    private static Connection connection;
+    private static MysqlConnection mysqlCon = new MysqlConnection();
 
     public static ForumMapper getInstance() {
         if (instance == null) { instance = new ForumMapper(); }
+        connection = mysqlCon.connect();
         return instance;
     }
 
-    public Forum createForum(Forum forum) throws Exception {
-        connection = mysqlCon.connect();
+    public Forum create(Forum forum) throws Exception {
         String insertSql = "INSERT INTO forums (u_name, f_title, f_content) VALUES (?, ?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql,
@@ -35,33 +35,45 @@ public class ForumMapper {
                 return forum;
             }
         } catch (SQLException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception("Something went wrong.");
         }
         throw new Exception("Couldn't save your forum post.");
     }
 
     public Forum getForum(int id) throws Exception {
-        connection = mysqlCon.connect();
-        connection.close();
-        return null;
+        Forum forum = null;
+        String selectSql = "SELECT * FROM forums WHERE id = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String username = rs.getString(2);
+                String title = rs.getString(3);
+                String content = rs.getString(4);
+                forum = new Forum(id, username, title, content);
+            }
+        } catch (SQLException e) {
+            throw new Exception("Something went wrong.");
+        }
+        return forum;
     }
 
     public List<Forum> getAll() throws Exception {
-        connection = mysqlCon.connect();
         ArrayList<Forum> forums = new ArrayList<>();
         String selectSql = "SELECT * FROM forums";
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
-            ResultSet result = pstmt.executeQuery();
-            while (result.next()) {
-                int id = result.getInt(1);
-                String username = result.getString(2);
-                String title = result.getString(3);
-                String content = result.getString(4);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String username = rs.getString(2);
+                String title = rs.getString(3);
+                String content = rs.getString(4);
                 forums.add(new Forum(id, username, title, content));
             }
         } catch (SQLException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception("Something went wrong.");
         }
         return forums;
     }

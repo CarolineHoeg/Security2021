@@ -17,7 +17,7 @@ public class ServletController extends HttpServlet {
         try {
             Command cmd = Command.from(request);
             String view = cmd.execute(request, response);
-            if(view == "index") {
+            if(view.equals("index")) {
                 rd = request.getRequestDispatcher("index.jsp");
             } else {
                 rd = request.getRequestDispatcher("/WEB-INF/" + view + ".jsp");

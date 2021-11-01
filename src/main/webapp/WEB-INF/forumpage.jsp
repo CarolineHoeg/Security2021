@@ -15,23 +15,17 @@
 <%@include file="includes/navbar.jsp" %>
 <div class="container-fluid">
 <h1>Forum</h1>
-    <!-- Create Forum -->
-    <form name="forum" action="ServletController" method="post">
-        <input type="hidden" name="cmd" value="create_forum">
-        <input type="hidden" name="u_name" value="${user.getUsername()}">
-        <input type="text" name="f_title" placeholder="Title" required>
-        <input type="text" name="f_content" placeholder="Content" required>
-        <input type="submit" value="Create new forum">
-    </form>
+    <%@include file="includes/createforum.jsp" %>
 
     <div class="container">
 <ul class="list-unstyled">
     <c:forEach items="${forums}" var="forum">
     <li class="media">
-        <div class="media-body">
+        <div class="card card-body">
             <h3 class="mt-0"><c:out value="${forum.getTitle()}"/></h3>
             <h6>By <c:out value="${forum.getUsername()}"/></h6>
             <p><c:out value="${forum.getContent()}"/></p>
+            <p>${forum.getComments().size()} comments</p>
             <c:if test="${user != null}">
                 <button>Add comment</button>
             </c:if>
@@ -41,5 +35,6 @@
 </ul>
     </div>
 </div>
+<script src="js/script.js"></script>
 </body>
 </html>

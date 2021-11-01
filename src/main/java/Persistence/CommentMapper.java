@@ -2,23 +2,22 @@ package Persistence;
 
 import Dependencies.MysqlConnection;
 import Models.Comment;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 public class CommentMapper {
 
     private static CommentMapper instance;
-    private Connection connection;
-    private MysqlConnection mysqlCon = new MysqlConnection();
+    private static Connection connection;
+    private static MysqlConnection mysqlCon = new MysqlConnection();
 
     public static CommentMapper getInstance() {
         if (instance == null) { instance = new CommentMapper(); }
+        connection = mysqlCon.connect();
         return instance;
     }
 
     public Comment create(Comment comment) throws Exception {
-        connection = mysqlCon.connect();
         String insertSql = "INSERT INTO comments (u_name, f_id, c_content) VALUES (?, ?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql,
@@ -40,7 +39,6 @@ public class CommentMapper {
     }
 
     public ArrayList<Comment> getCommentsToForum(int forumId) throws Exception {
-        connection = mysqlCon.connect();
         ArrayList<Comment> comments = new ArrayList<>();
         String selectSql = "SELECT * FROM comments WHERE f_id = ?";
         try {
@@ -55,7 +53,7 @@ public class CommentMapper {
                 comments.add(new Comment(id, username, forumId, content));
             }
         } catch (SQLException e) {
-            throw new Exception("Something went wrong");
+            throw new Exception("Something went wrong.");
         }
         return comments;
     }

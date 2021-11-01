@@ -1,26 +1,36 @@
 <%-- Created by IntelliJ IDEA. User: carol --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="index.jsp">Logo name</a>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form name="viewpage" action="ServletController" method="post">
+            <input type="hidden" name="cmd" value="view">
+            <input type="hidden" name="page" value="index">
+            <input type="submit" class="btn btn-light" value="Logo name">
+        </form>
+        <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.jsp">Home </a>
+                    <form name="viewpage" action="ServletController" method="post">
+                        <input type="hidden" name="cmd" value="view">
+                        <input type="hidden" name="page" value="index">
+                        <input type="submit" class="btn btn-light" value="Home">
+                    </form>
                 </li>
                 <li class="nav-item">
-                    <form name="register" action="ServletController" method="post">
-                        <input type="hidden" name="cmd" value="forumpage">
-                        <input type="submit" class="" value="Forum">
+                    <form name="viewpage" action="ServletController" method="post">
+                        <input type="hidden" name="cmd" value="view">
+                        <input type="hidden" name="page" value="forumpage">
+                        <input type="submit" class="btn btn-light" value="Forum">
                     </form>
                 </li>
                 <c:if test="${user != null}">
                     <li class="nav-item">
-                        <form name="register" action="ServletController" method="post">
-                            <input type="hidden" name="cmd" value="userpage">
-                            <input type="submit" class="" value="${user.getUsername()}s page">
+                        <form name="viewpage" action="ServletController" method="post">
+                            <input type="hidden" name="cmd" value="view">
+                            <input type="hidden" name="page" value="userpage">
+                            <input type="submit" class="btn btn-light" value="${user.getUsername()}s page">
                         </form>
                     </li>
                 </c:if>

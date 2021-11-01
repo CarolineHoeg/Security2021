@@ -15,8 +15,7 @@ public abstract class Command {
         commands.put("logout", new LogoutCommand());
         commands.put("register", new RegisterCommand());
         commands.put("create_forum", new CreateForumCommand());
-        commands.put("forumpage", new ForumPageCommand());
-        commands.put("userpage", new UserPageCommand());
+        commands.put("view", new ViewPageCommand());
     }
 
     static Command from(HttpServletRequest request) {
