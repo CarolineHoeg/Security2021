@@ -16,7 +16,6 @@
 <div class="container-fluid">
 <h1>Welcome!</h1>
 <p>Hi <c:out value="${user.getUsername()}"/></p>
-
 <!-- Logout -->
 <form name="logout" action="ServletController" method="post">
     <input type="hidden" name="cmd" value="logout">

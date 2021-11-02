@@ -30,6 +30,16 @@ public class DBFacade implements IDBFacade{
     }
 
     @Override
+    public Forum updateForum(Forum forum) throws Exception {
+        return FORUMMAPPER.update(forum);
+    }
+
+    @Override
+    public void deleteForum(Forum forum) throws Exception {
+        FORUMMAPPER.delete(forum.getId());
+    }
+
+    @Override
     public Forum getForum(int forumId) throws Exception {
         Forum forum = FORUMMAPPER.getForum(forumId);
         ArrayList<Comment> comments = COMMENTMAPPER.getCommentsToForum(forumId);
@@ -40,6 +50,17 @@ public class DBFacade implements IDBFacade{
     @Override
     public List<Forum> getAllForums() throws Exception {
         List<Forum> forums = FORUMMAPPER.getAll();
+        for (Forum forum : forums) {
+            ArrayList<Comment> comments = COMMENTMAPPER.getCommentsToForum(forum.getId());
+            forum.setComments(comments);
+        }
+        forums.sort((f1, f2) -> f2.getCreated().compareTo(f1.getCreated()));
+        return forums;
+    }
+
+    @Override
+    public List<Forum> getForumsByUser(User user) throws Exception {
+        List<Forum> forums = FORUMMAPPER.getAllByUser(user.getUsername());
         for (Forum forum : forums) {
             ArrayList<Comment> comments = COMMENTMAPPER.getCommentsToForum(forum.getId());
             forum.setComments(comments);
@@ -61,5 +82,10 @@ public class DBFacade implements IDBFacade{
     @Override
     public void deleteComment(Comment comment) throws Exception {
         COMMENTMAPPER.delete(comment.getId());
+    }
+
+    @Override
+    public List<Comment> getCommentsByUser(User user) throws Exception {
+        return COMMENTMAPPER.getAllByUser(user.getUsername());
     }
 }

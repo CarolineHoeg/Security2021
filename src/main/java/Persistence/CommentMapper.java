@@ -4,6 +4,7 @@ import Dependencies.MysqlConnection;
 import Models.Comment;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentMapper {
 
@@ -75,6 +76,26 @@ public class CommentMapper {
                 int id = rs.getInt(1);
                 Timestamp created = rs.getTimestamp(2);
                 String username = rs.getString(3);
+                String content = rs.getString(5);
+                comments.add(new Comment(id, created, username, forumId, content));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Something went wrong.");
+        }
+        return comments;
+    }
+
+    public List<Comment> getAllByUser(String username) throws Exception {
+        ArrayList<Comment> comments = new ArrayList<>();
+        String selectSql = "SELECT * FROM comments WHERE u_name = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                Timestamp created = rs.getTimestamp(2);
+                int forumId = rs.getInt(4);
                 String content = rs.getString(5);
                 comments.add(new Comment(id, created, username, forumId, content));
             }
