@@ -26,7 +26,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form name="forum" action="ServletController" method="post">
+            <form name="forum" action="ServletController" method="post" enctype='multipart/form-data'>
                 <input type="hidden" name="cmd" value="forum">
                 <input type="hidden" name="forumcmd" value="create">
                 <input type="hidden" name="u_name" value="${user.getUsername()}">
@@ -34,6 +34,10 @@
                     <div class="form-group">
                         <label for="title" class="col-form-label">Title:</label>
                         <input type="text" name="f_title" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="col-form-label">Image (optional):</label>
+                        <input type="file" name="f_image" id="image" multiple accept=".jpg, .png"/><br>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Content:</label>

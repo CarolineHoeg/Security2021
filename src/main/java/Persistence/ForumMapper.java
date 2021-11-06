@@ -19,7 +19,8 @@ public class ForumMapper {
     }
 
     public Forum create(Forum forum) throws Exception {
-        String insertSql = "INSERT INTO forums (created, u_name, f_title, f_content) VALUES (?, ?, ?, ?)";
+        String insertSql = "INSERT INTO forums (created, u_name, f_title, f_content, f_image) "
+                + "VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql,
                     Statement.RETURN_GENERATED_KEYS);
@@ -27,6 +28,7 @@ public class ForumMapper {
             pstmt.setString(2, forum.getUsername());
             pstmt.setString(3, forum.getTitle());
             pstmt.setString(4, forum.getContent());
+            pstmt.setString(5, forum.getImageUrl());
             pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -76,7 +78,8 @@ public class ForumMapper {
                 String username = rs.getString(3);
                 String title = rs.getString(4);
                 String content = rs.getString(5);
-                forum = new Forum(id, created, username, title, content);
+                String imageUrl = rs.getString(6);
+                forum = new Forum(id, created, username, title, content, imageUrl);
             }
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");
@@ -96,7 +99,8 @@ public class ForumMapper {
                 String username = rs.getString(3);
                 String title = rs.getString(4);
                 String content = rs.getString(5);
-                forums.add(new Forum(id, created, username, title, content));
+                String imageUrl = rs.getString(6);
+                forums.add(new Forum(id, created, username, title, content, imageUrl));
             }
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");
@@ -116,7 +120,8 @@ public class ForumMapper {
                 Timestamp created = rs.getTimestamp(2);
                 String title = rs.getString(4);
                 String content = rs.getString(5);
-                forums.add(new Forum(id, created, username, title, content));
+                String imageUrl = rs.getString(6);
+                forums.add(new Forum(id, created, username, title, content, imageUrl));
             }
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");

@@ -22,9 +22,18 @@
     <li class="media">
         <div class="card card-body">
             <h3 class="mt-0"><c:out value="${forum.getTitle()}"/></h3>
+            <c:if test="${forum.getImageUrl() != null}">
+                <img src="${forum.getImageUrl()}" alt="Image" style="max-width:400px; max-height:400px;">
+            </c:if>
             <h6>By <c:out value="${forum.getUsername()}"/></h6>
             <p><c:out value="${forum.getContent()}"/></p>
             <p>${forum.getComments().size()} comments</p>
+            <c:forEach items="${forum.getComments()}" var="comment">
+            <div class="card card-body">
+                <h6>By <c:out value="${comment.getUsername()}"/></h6>
+                <p><c:out value="${comment.getContent()}"/></p>
+            </div>
+            </c:forEach>
             <c:if test="${user != null}">
                 <form name="create_comment" action="ServletController" method="post">
                     <input type="hidden" name="cmd" value="comment">

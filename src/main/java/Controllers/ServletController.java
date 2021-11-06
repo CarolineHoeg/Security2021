@@ -3,12 +3,17 @@ package Controllers;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "ServletController", urlPatterns = {"/ServletController"})
+@MultipartConfig(fileSizeThreshold = 500000, // 0.5 MB
+        maxFileSize = 1048576L, // 1 MB
+        maxRequestSize = 5242880 // 5 MB
+)
 public class ServletController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {

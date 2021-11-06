@@ -3,6 +3,8 @@ package Persistence;
 import Models.Comment;
 import Models.Forum;
 import Models.User;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class DBFacade implements IDBFacade{
     private final UserMapper USERMAPPER = UserMapper.getInstance();
     private final ForumMapper FORUMMAPPER = ForumMapper.getInstance();
     private final CommentMapper COMMENTMAPPER = CommentMapper.getInstance();
+    private final ImageMapper IMAGEMAPPER = ImageMapper.getInstance();
 
     @Override
     public User login(String username, String password) throws Exception {
@@ -25,8 +28,8 @@ public class DBFacade implements IDBFacade{
     }
 
     @Override
-    public Forum createForum(String username, String title, String content) throws Exception {
-        return FORUMMAPPER.create(new Forum(username, title, content));
+    public Forum createForum(String username, String title, String content, String imageUrl) throws Exception {
+        return FORUMMAPPER.create(new Forum(username, title, content, imageUrl));
     }
 
     @Override
@@ -87,5 +90,10 @@ public class DBFacade implements IDBFacade{
     @Override
     public List<Comment> getCommentsByUser(User user) throws Exception {
         return COMMENTMAPPER.getAllByUser(user.getUsername());
+    }
+
+    @Override
+    public String uploadImage(File file) throws Exception {
+        return IMAGEMAPPER.upload(file);
     }
 }

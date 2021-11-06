@@ -4,12 +4,13 @@ import Models.Comment;
 import Models.Forum;
 import Models.User;
 
+import java.io.File;
 import java.util.List;
 
 public interface IDBFacade {
     public User login(String username, String password) throws Exception;
     public User register(String username, String password) throws Exception;
-    public Forum createForum(String username, String title, String content) throws Exception;
+    public Forum createForum(String username, String title, String content, String imageUrl)  throws Exception;
     public Forum updateForum(Forum forum) throws Exception;
     public void deleteForum(Forum forum) throws Exception;
     public Forum getForum(int forumId) throws Exception;
@@ -19,4 +20,5 @@ public interface IDBFacade {
     public Comment updateComment(Comment comment) throws Exception;
     public void deleteComment(Comment comment) throws Exception;
     public List<Comment> getCommentsByUser(User user) throws Exception;
+    public String uploadImage(File file) throws Exception;
 }
