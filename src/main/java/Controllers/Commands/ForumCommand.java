@@ -1,7 +1,7 @@
 package Controllers.Commands;
 
 import Controllers.Command;
-import Models.ImageFileHandler;
+import Service.ImageFileHandler;
 import Models.Forum;
 import Persistence.DBFacade;
 import Persistence.IDBFacade;

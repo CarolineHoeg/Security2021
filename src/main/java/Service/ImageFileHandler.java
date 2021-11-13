@@ -1,4 +1,4 @@
-package Models;
+package Service;
 
 import Persistence.DBFacade;
 import Persistence.IDBFacade;
@@ -15,6 +15,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 import java.util.UUID;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ImageFileHandler {
 
@@ -22,6 +24,7 @@ public class ImageFileHandler {
     private static final String UPLOAD_DIR = "img";
     private static final String OS = System.getProperty("os.name").toLowerCase();
     private static String working_dir = null;
+    private static final Logger LOG = LogManager.getLogger(ImageFileHandler.class);
 
     public static String uploadImage(Part imagePart) throws Exception {
         String imageUrl = null;
@@ -45,8 +48,6 @@ public class ImageFileHandler {
                 ImageReader reader = iter.next();
                 mimeType = reader.getFormatName();
             }
-        } catch (IOException e) {
-            throw new Exception("It dies here getMimeType " + e.getMessage());
         }
         return mimeType;
     }
@@ -58,12 +59,9 @@ public class ImageFileHandler {
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
-        try {
-            part.write(working_dir + File.separator + UPLOAD_DIR
-                    + File.separator + fileName);
-        } catch (IOException e) {
-            throw new Exception("It dies here uploadTempFile " + e.getMessage());
-        }
+        part.write(working_dir + File.separator + UPLOAD_DIR
+                + File.separator + fileName);
+
         return new File(working_dir + File.separator
                 + UPLOAD_DIR + File.separator + fileName);
     }
@@ -88,7 +86,7 @@ public class ImageFileHandler {
                 }
             }
         } catch (Exception e) {
-            //TODO Log that the file couldn't be deleted
+            LOG.warn("Cannot safely remove file! ", e);
         }
     }
 

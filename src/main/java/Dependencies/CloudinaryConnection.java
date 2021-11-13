@@ -2,6 +2,8 @@ package Dependencies;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +15,7 @@ public class CloudinaryConnection implements ICloudinaryConnection {
     private static String cloud_name;
     private static String api_key;
     private static String api_secret;
+    private static final Logger LOG = LogManager.getLogger(CloudinaryConnection.class);
 
     @Override
     public Cloudinary connect() {
@@ -41,7 +44,7 @@ public class CloudinaryConnection implements ICloudinaryConnection {
             api_key = props.getProperty("api_key");
             api_secret = props.getProperty("api_secret");
         } catch (IOException e) {
-            //TODO
+            LOG.error("Something went wrong! ", e);
         }
     }
 }

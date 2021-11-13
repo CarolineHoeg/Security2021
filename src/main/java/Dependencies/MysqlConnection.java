@@ -1,5 +1,8 @@
 package Dependencies;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +17,7 @@ public class MysqlConnection implements IMysqlConnection {
     private static String url;
     private static String user;
     private static String password;
+    private static Logger LOG = LogManager.getLogger(MysqlConnection.class);
 
     @Override
     public Connection connect() {
@@ -34,7 +38,7 @@ public class MysqlConnection implements IMysqlConnection {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(url, user, password);
         } catch (ClassNotFoundException | SQLException e) {
-            //TODO
+            LOG.error("Something went wrong! ", e);
         }
     }
 
@@ -47,7 +51,7 @@ public class MysqlConnection implements IMysqlConnection {
             user = props.getProperty("user");
             password = props.getProperty("password");
         } catch (IOException e) {
-            //TODO
+            LOG.error("Something went wrong! ", e);
         }
     }
 }
