@@ -96,4 +96,9 @@ public class DBFacade implements IDBFacade{
     public String uploadImage(File file) throws Exception {
         return IMAGEMAPPER.upload(file);
     }
+
+    @Override
+    public List<Forum> searchForums(String searchStr) {
+        return FORUMMAPPER.searchForums(searchStr);
+    }
 }

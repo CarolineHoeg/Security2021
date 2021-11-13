@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="ValgfagBoilerPlateSecurity-1.0-SNAPSHOT.war">
+    <root id="archive" name="SecurityExam-1.0.war">
       <element id="artifact" artifact-name="ValgfagBoilerPlateSecurity:war exploded" />
     </root>
   </artifact>

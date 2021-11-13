@@ -7,7 +7,10 @@
         <form name="viewpage" action="ServletController" method="post">
             <input type="hidden" name="cmd" value="view">
             <input type="hidden" name="page" value="index">
-            <input type="submit" class="btn btn-light" value="Logo name">
+            <button type="submit" class="btn btn-light">
+                <img src="https://res.cloudinary.com/ditkzu9t1/image/upload/v1636737355/icon_xurqrn.png" width="30" height="30" alt="logo">
+                Dev Debate
+            </button>
         </form>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
@@ -30,7 +33,7 @@
                         <form name="viewpage" action="ServletController" method="post">
                             <input type="hidden" name="cmd" value="view">
                             <input type="hidden" name="page" value="userpage">
-                            <input type="submit" class="btn btn-light" value="${user.getUsername()}s page">
+                            <input type="submit" class="btn btn-light" value="${user.getUsername()}'s page">
                         </form>
                     </li>
                 </c:if>
@@ -49,8 +52,10 @@
                     </button>
                 </c:otherwise>
             </c:choose>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" name="search" action="ServletController" method="post">
+                <input type="hidden" name="cmd" value="forum">
+                <input type="hidden" name="forumcmd" value="search">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search">
                 <button class="btn btn-outline-info" type="submit">Search</button>
             </form>
         </div>
@@ -82,6 +87,7 @@
                                 <input type="password" class="form-control" name="l_password"
                                             placeholder="Password" required>
                             </div>
+                            <p style="color:red"><c:out value="${errorMsg}"/></p>
                             <button type="submit" class="btn btn-info btn-block btn-round">Login</button>
                         </form>
                     </div>
@@ -89,15 +95,16 @@
                 <div class="modal-footer d-flex justify-content-center">
                     <div class="signup-section">Not a member yet?
                         <button type="button" class="sign-up-btn" data-toggle="modal"
-                                    data-target="#registerModal"> Sign up.</button>
+                                    data-target="#registerModal" > Sign up.</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Registration modal -->
-        <!--TODO! make sure username cant contain whitespaces and that password and repaet password match-->
-        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog"
+<!-- Registration modal -->
+<!--TODO! make sure username cant contain whitespaces and that password and repaet password match-->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -120,22 +127,56 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control" name="r_password"
-                                                placeholder="Password" required>
+                                                placeholder="Password" id="r_password" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="r_control_password"
-                                                placeholder="Repeat password" required>
+                                    <input type="password" class="form-control" name="r_confirm_password"
+                                                placeholder="Repeat password" id="r_confirm_password" required>
                                 </div>
-                                <button type="submit" class="btn btn-info btn-block btn-round">Register</button>
+                                <p style="color:red"><c:out value="${errorMsg}"/></p>
+                                <button type="submit" class="btn btn-info btn-block btn-round" id="r_submit">Register</button>
                             </form>
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center"></div>
                 </div>
             </div>
-        </div>
     </div>
+
 <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
-<script src="../WEB-INF/js/script.js"></script>
+<script>
+    $(document).ready(function(){
+        var $submitBtn = $("#r_submit");
+        var $passwordBox = $("#r_password");
+        var $confirmBox = $("#r_confirm_password");
+        var $errorMsg =  $('<span style="color:red" id="error_msg">Passwords do not match.</span>');
+
+        $submitBtn.removeAttr("disabled");
+
+        function checkMatchingPasswords(){
+            if($confirmBox.val() != "" || $passwordBox.val != ""){
+                if( $confirmBox.val() != $passwordBox.val() ){
+                    $submitBtn.attr("disabled", "disabled");
+                    $errorMsg.insertAfter($confirmBox);
+                }
+            }
+        }
+
+        function resetPasswordError(){
+            $submitBtn.removeAttr("disabled");
+            var $errorCont = $("#error_msg");
+            if($errorCont.length > 0){    $errorCont.remove();
+            }
+        }
+
+        $("#r_confirm_password, #r_password")
+            .on("blur", function(){
+                checkMatchingPasswords();
+            })
+            .on("focus", function(){
+                resetPasswordError();
+            })
+    });
+</script>

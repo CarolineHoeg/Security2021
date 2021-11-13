@@ -128,4 +128,25 @@ public class ForumMapper {
         }
         return forums;
     }
+
+    public List<Forum> searchForums(String searchStr) {
+        ArrayList<Forum> forums = new ArrayList<>();
+        String selectSql = "SELECT * FROM forums WHERE f_content LIKE ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, '%' + searchStr + '%');
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                Timestamp created = rs.getTimestamp(2);
+                String username = rs.getString(3);
+                String title = rs.getString(4);
+                String content = rs.getString(5);
+                String imageUrl = rs.getString(6);
+                forums.add(new Forum(id, created, username, title, content, imageUrl));
+            }
+        } catch (SQLException e) {
+        }
+        return forums;
+    }
 }

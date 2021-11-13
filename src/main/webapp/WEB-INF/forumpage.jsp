@@ -38,7 +38,7 @@
                 <form name="create_comment" action="ServletController" method="post">
                     <input type="hidden" name="cmd" value="comment">
                     <input type="hidden" name="commentcmd" value="create">
-                    <input type="hidden" name="u_name" value="${forum.getUsername()}">
+                    <input type="hidden" name="u_name" value="${user.getUsername()}">
                     <input type="hidden" name="f_id" value="${forum.getId()}">
                     <input type="text" name="content" required>
                     <input type="submit" value="Add comment">

@@ -21,4 +21,5 @@ public interface IDBFacade {
     public void deleteComment(Comment comment) throws Exception;
     public List<Comment> getCommentsByUser(User user) throws Exception;
     public String uploadImage(File file) throws Exception;
+    public List<Forum> searchForums(String searchStr);
 }
