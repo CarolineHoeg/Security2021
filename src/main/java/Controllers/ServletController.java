@@ -7,6 +7,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +23,9 @@ public class ServletController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(300);
+
         RequestDispatcher rd;
         try {
             Command cmd = Command.from(request);
@@ -34,7 +38,11 @@ public class ServletController extends HttpServlet {
         } catch (Exception e) {
             LOG.warn("User error", e);
             request.setAttribute("errorMsg", e.getMessage() + " Please try again.");
-            rd = request.getRequestDispatcher("index.jsp");
+            if (e.getMessage().equals("Username or e-mail already in use.")) {
+                rd = request.getRequestDispatcher("register.jsp");
+            } else {
+                rd = request.getRequestDispatcher("index.jsp");
+            }
         }
         try {
             rd.forward(request, response);

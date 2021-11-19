@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IDBFacade {
     public User login(String username, String password) throws Exception;
-    public User register(String username, String password) throws Exception;
+    public User register(String username, String email, String password) throws Exception;
     public Forum createForum(String username, String title, String content, String imageUrl)  throws Exception;
     public Forum updateForum(Forum forum) throws Exception;
     public void deleteForum(Forum forum) throws Exception;
@@ -22,4 +22,5 @@ public interface IDBFacade {
     public List<Comment> getCommentsByUser(User user) throws Exception;
     public String uploadImage(File file) throws Exception;
     public List<Forum> searchForums(String searchStr);
+    void updateValidatedUser(User user) throws Exception;
 }

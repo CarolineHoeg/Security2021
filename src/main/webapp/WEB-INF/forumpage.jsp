@@ -34,16 +34,21 @@
                 <p><c:out value="${comment.getContent()}"/></p>
             </div>
             </c:forEach>
-            <c:if test="${user != null}">
-                <form name="create_comment" action="ServletController" method="post">
-                    <input type="hidden" name="cmd" value="comment">
-                    <input type="hidden" name="commentcmd" value="create">
-                    <input type="hidden" name="u_name" value="${user.getUsername()}">
-                    <input type="hidden" name="f_id" value="${forum.getId()}">
-                    <input type="text" name="content" required>
-                    <input type="submit" value="Add comment">
-                </form>
-            </c:if>
+            <c:choose>
+                <c:when test="${user != null && user.isValidated()}">
+                    <form name="create_comment" action="ServletController" method="post">
+                        <input type="hidden" name="cmd" value="comment">
+                        <input type="hidden" name="commentcmd" value="create">
+                        <input type="hidden" name="u_name" value="${user.getUsername()}">
+                        <input type="hidden" name="f_id" value="${forum.getId()}">
+                        <input type="text" name="content" required>
+                        <input type="submit" value="Add comment">
+                    </form>
+                </c:when>
+                <c:when test="${user != null}">
+                    <p>Please, authenticate your account to leave comments.</p>
+                </c:when>
+            </c:choose>
         </div>
     </li>
     </c:forEach>

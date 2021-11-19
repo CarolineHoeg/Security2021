@@ -72,15 +72,7 @@ public class ForumMapper {
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Timestamp created = rs.getTimestamp(2);
-                String username = rs.getString(3);
-                String title = rs.getString(4);
-                String content = rs.getString(5);
-                String imageUrl = rs.getString(6);
-                forum = new Forum(id, created, username, title, content, imageUrl);
-            }
+            getForumFromQuery(pstmt);
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");
         }
@@ -92,16 +84,7 @@ public class ForumMapper {
         String selectSql = "SELECT * FROM forums";
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                Timestamp created = rs.getTimestamp(2);
-                String username = rs.getString(3);
-                String title = rs.getString(4);
-                String content = rs.getString(5);
-                String imageUrl = rs.getString(6);
-                forums.add(new Forum(id, created, username, title, content, imageUrl));
-            }
+            getForumsFromResultSet(forums, pstmt);
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");
         }
@@ -114,15 +97,7 @@ public class ForumMapper {
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                Timestamp created = rs.getTimestamp(2);
-                String title = rs.getString(4);
-                String content = rs.getString(5);
-                String imageUrl = rs.getString(6);
-                forums.add(new Forum(id, created, username, title, content, imageUrl));
-            }
+            getForumsFromResultSet(forums, pstmt);
         } catch (SQLException e) {
             throw new Exception("Something went wrong.");
         }
@@ -135,18 +110,36 @@ public class ForumMapper {
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, '%' + searchStr + '%');
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                Timestamp created = rs.getTimestamp(2);
-                String username = rs.getString(3);
-                String title = rs.getString(4);
-                String content = rs.getString(5);
-                String imageUrl = rs.getString(6);
-                forums.add(new Forum(id, created, username, title, content, imageUrl));
-            }
+            getForumsFromResultSet(forums, pstmt);
         } catch (SQLException e) {
         }
         return forums;
+    }
+
+    private Forum getForumFromQuery(PreparedStatement pstmt) throws SQLException {
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt(1);
+            Timestamp created = rs.getTimestamp(2);
+            String username = rs.getString(3);
+            String title = rs.getString(4);
+            String content = rs.getString(5);
+            String imageUrl = rs.getString(6);
+            return new Forum(id, created, username, title, content, imageUrl);
+        }
+        return null;
+    }
+
+    private void getForumsFromResultSet(ArrayList<Forum> forums, PreparedStatement pstmt) throws SQLException {
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt(1);
+            Timestamp created = rs.getTimestamp(2);
+            String username = rs.getString(3);
+            String title = rs.getString(4);
+            String content = rs.getString(5);
+            String imageUrl = rs.getString(6);
+            forums.add(new Forum(id, created, username, title, content, imageUrl));
+        }
     }
 }

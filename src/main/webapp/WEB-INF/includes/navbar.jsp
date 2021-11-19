@@ -9,7 +9,7 @@
             <input type="hidden" name="page" value="index">
             <button type="submit" class="btn btn-light">
                 <img src="https://res.cloudinary.com/ditkzu9t1/image/upload/v1636737355/icon_xurqrn.png" width="30" height="30" alt="logo">
-                Dev Debate
+                DevDebate
             </button>
         </form>
         <div class="collapse navbar-collapse">
@@ -94,89 +94,17 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <div class="signup-section">Not a member yet?
-                        <button type="button" class="sign-up-btn" data-toggle="modal"
-                                    data-target="#registerModal" > Sign up.</button>
+                        <form name="register" action="ServletController" method="post">
+                            <input type="hidden" name="cmd" value="view">
+                            <input type="hidden" name="page" value="register">
+                            <input type="submit" value="Sign up">
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<!-- Registration modal -->
-<!--TODO! make sure username cant contain whitespaces and that password and repaet password match-->
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom-0">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-title text-center">
-                            <h4>Register</h4>
-                        </div>
-                        <div class="d-flex flex-column text-center">
-                            <form name="register" action="ServletController" method="post">
-                                <input type="hidden" name="cmd" value="user">
-                                <input type="hidden" name="usercmd" value="register">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="r_username"
-                                                placeholder="Username" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" name="r_password"
-                                                placeholder="Password" id="r_password" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" name="r_confirm_password"
-                                                placeholder="Repeat password" id="r_confirm_password" required>
-                                </div>
-                                <p style="color:red"><c:out value="${errorMsg}"/></p>
-                                <button type="submit" class="btn btn-info btn-block btn-round" id="r_submit">Register</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center"></div>
-                </div>
-            </div>
-    </div>
-
 <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
-<script>
-    $(document).ready(function(){
-        var $submitBtn = $("#r_submit");
-        var $passwordBox = $("#r_password");
-        var $confirmBox = $("#r_confirm_password");
-        var $errorMsg =  $('<span style="color:red" id="error_msg">Passwords do not match.</span>');
-
-        $submitBtn.removeAttr("disabled");
-
-        function checkMatchingPasswords(){
-            if($confirmBox.val() != "" || $passwordBox.val != ""){
-                if( $confirmBox.val() != $passwordBox.val() ){
-                    $submitBtn.attr("disabled", "disabled");
-                    $errorMsg.insertAfter($confirmBox);
-                }
-            }
-        }
-
-        function resetPasswordError(){
-            $submitBtn.removeAttr("disabled");
-            var $errorCont = $("#error_msg");
-            if($errorCont.length > 0){    $errorCont.remove();
-            }
-        }
-
-        $("#r_confirm_password, #r_password")
-            .on("blur", function(){
-                checkMatchingPasswords();
-            })
-            .on("focus", function(){
-                resetPasswordError();
-            })
-    });
-</script>

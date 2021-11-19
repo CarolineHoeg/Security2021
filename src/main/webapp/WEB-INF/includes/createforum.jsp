@@ -7,10 +7,13 @@
 
 <!-- Create Forum -->
 <c:choose>
-    <c:when test="${user != null}">
+    <c:when test="${user != null && user.isValidated()}">
         <button type="button" class="btn btn-light" data-toggle="modal" data-target="#createModal">
             Create new forum
         </button>
+    </c:when>
+    <c:when test="${user != null}">
+        <p>Authenticate your account to create forums and add comments</p>
     </c:when>
     <c:otherwise>
         <p>Log in or sign up to create forums and add comments</p>

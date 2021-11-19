@@ -8,7 +8,6 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.Part;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -79,9 +78,7 @@ public class ImageFileHandler {
     private static void safelyRemoveFile(Path p) {
         try {
             if (p != null) {
-                // Remove temporary file
                 if (!Files.deleteIfExists(p)) {
-                    // If remove fail then overwrite content to sanitize it
                     Files.write(p, "-".getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
                 }
             }

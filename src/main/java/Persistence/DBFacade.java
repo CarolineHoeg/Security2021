@@ -21,8 +21,8 @@ public class DBFacade implements IDBFacade{
     }
 
     @Override
-    public User register(String username, String password) throws Exception {
-        User user = new User(username, password);
+    public User register(String username, String email, String password) throws Exception {
+        User user = new User(username, email, password);
         USERMAPPER.register(user);
         return user;
     }
@@ -100,5 +100,10 @@ public class DBFacade implements IDBFacade{
     @Override
     public List<Forum> searchForums(String searchStr) {
         return FORUMMAPPER.searchForums(searchStr);
+    }
+
+    @Override
+    public void updateValidatedUser(User user) throws Exception {
+        USERMAPPER.updateValidatedUser(user);
     }
 }

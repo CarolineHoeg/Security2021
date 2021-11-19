@@ -41,14 +41,26 @@ public class UserMapper {
     }
 
     public void register(User user) throws Exception {
-        String insertSql = "INSERT INTO users VALUES (?, ?)";
+        String insertSql = "INSERT INTO users VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pstmt = connection.prepareStatement(insertSql);
             pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
+            pstmt.setString(2, user.getEmail());
+            pstmt.setString(3, user.getPassword());
+            pstmt.setBoolean(4, user.isValidated());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new Exception("Username already taken.");
+            throw new Exception("Username or e-mail already in use.");
+        }
+    }
+
+    public void updateValidatedUser(User user) throws Exception {
+        String updateSql = "UPDATE users SET isvalid = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(updateSql);
+            pstmt.setBoolean(1, user.isValidated());
+        } catch (SQLException e) {
+            throw new Exception("Could not authenticate your account. Will send new email.");
         }
     }
 }
