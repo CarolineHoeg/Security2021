@@ -22,7 +22,7 @@ public class ServletController extends HttpServlet {
     private final Logger LOG = LogManager.getLogger(ServletController.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(300);
 

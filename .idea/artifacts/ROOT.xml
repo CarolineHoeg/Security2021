@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ROOT">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>ValgfagBoilerPlateSecurity</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="ROOT-1.0.war">
+      <element id="artifact" artifact-name="ValgfagBoilerPlateSecurity:war exploded" />
+    </root>
+  </artifact>
+</component>

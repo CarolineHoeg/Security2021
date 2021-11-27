@@ -1,5 +1,3 @@
-'use strict';
-
 class PasswordMeter {
     constructor(selector) {
         this.wrappers = document.querySelectorAll(selector);
@@ -25,5 +23,4 @@ class PasswordMeter {
 
 document.addEventListener('DOMContentLoaded', () => {
     const passwordMeter = new PasswordMeter('.password-meter-wrap');
-    alert("I can enter her!");
 }, false);
