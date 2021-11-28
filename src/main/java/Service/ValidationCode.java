@@ -1,4 +1,4 @@
-package Models;
+package Service;
 
 import java.security.SecureRandom;
 
