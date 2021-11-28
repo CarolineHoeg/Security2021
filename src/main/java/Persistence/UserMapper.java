@@ -20,7 +20,7 @@ public class UserMapper {
     }
 
     public User login(String username, String password) throws Exception {
-        String selectSql = "SELECT u_pass FROM users "
+        String selectSql = "SELECT u_pass, isvalid FROM users "
                 + "WHERE u_name = ?";
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -29,9 +29,11 @@ public class UserMapper {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 String hashedPw = rs.getString(1);
+                boolean isValid = rs.getBoolean(2);
                 User temp = new User(username, password);
                 if (temp.validatePassword(password, hashedPw)) {
-                    return new User(username, password);
+                    temp.setValidated(isValid);
+                    return temp;
                 }
             }
         } catch (Exception e) {
